@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.bg-color-1 {
+    @apply bg-white;
+}
+
+.bg-color-2 {
+    @apply bg-gray-50;
+}
+
+.bg-primary-color {
+    background-color: #753364
+}
+
+@layer utilities {
+    .button {
+        @apply inline-flex items-center justify-center;
+        @apply font-bold py-2 px-4 rounded-lg;
+        @apply focus:ring-4 sm:w-auto;
+    }
+
+    .button-1 {
+        @apply button;
+        @apply text-white;
+        background-color: #753364
+    }
+
+    .button-1:hover {
+        background-color: #CD5AB0
+       
+    }
+
+    .button-2 {
+        @apply button;
+        @apply text-white;
+        background-color: #761142
+    }
+
+    .button-2:hover {
+        background-color: #B01962
+    }
+}
