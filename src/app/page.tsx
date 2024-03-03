@@ -2,6 +2,7 @@
 import { LoginForm } from "@/components/security";
 import { useEffect, useState } from "react";
 import { useProductApi } from "@/hooks/api";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -17,8 +18,10 @@ export default function Home() {
 
     return (
         <div className="flex justify-center items-center h-screen">  
-            {/* <h1 className="text-6xl">¡Bienvenido Admin!</h1> */}
-            <LoginForm/>
+
+
+            <Link className="pe-5" href="/product?showDialog=y">click para modal</Link>
+            <Link href="/product">para no modal</Link>
         </div>
     )
 }

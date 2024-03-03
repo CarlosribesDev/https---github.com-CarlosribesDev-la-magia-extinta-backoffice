@@ -1,4 +1,4 @@
-import TableActions from "./tableActions/tableActions";
+import DataActions from "./tableActions/dataActions";
 import DataTable from "./dataTable/dataTable";
 
-export { TableActions, DataTable };
+export { DataActions, DataTable };

@@ -1,8 +1,8 @@
 'use client'
 import { SectionHeader } from '@/components/layaout'
 import { CreateProjectModal } from '@/components/modal';
-import { DataTable, TableActions } from '@/components/table'
-import { PopupType, usePopup } from '@/hooks';
+import { DataTable, DataActions } from '@/components/table'
+
 import { CreatedProject, Project } from '@/model';
 import { ProjectService } from '@/service';
 import { useEffect, useState } from 'react';
@@ -20,7 +20,6 @@ export default function ProjectPage() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [project, setProject] = useState<Project | null>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const { showPopup } = usePopup();
 
     const updateProjects = (): void => {
         ProjectService.getAll().then((res) => setProjects(res));
@@ -42,12 +41,7 @@ export default function ProjectPage() {
     }
 
     const onDelete = (project: Project) => {
-        showPopup(PopupType.WARNING, 'Borrar proyecto', `Se va a borrar el proyecto seleccionado: ${project.id}. ¿Desea continuar?`, () => {
-            ProjectService.deleteById(project.id).then(() => {
-                updateProjects();
-                showPopup(PopupType.SUCCESS, 'Proyecto borrado', 'El proyecto se ha borrado correctamente');
-            });
-        });
+
     }
 
     const onRefresh = () => {
@@ -62,7 +56,7 @@ export default function ProjectPage() {
         ProjectService.create(project).then(() => {
             updateProjects();
             setIsModalVisible(false);
-            showPopup(PopupType.SUCCESS, 'Proyecto creado', 'El proyecto se ha creado correctamente');
+
         });
     }
 
@@ -70,20 +64,17 @@ export default function ProjectPage() {
         ProjectService.update(project).then(() => {
             updateProjects();
             setIsModalVisible(false);
-            showPopup(PopupType.SUCCESS, 'Proyecto actualizado', 'El proyecto se ha actualizado correctamente');
+
         });
     }
 
     return (
-        <div>
-            <div className="p-8 bg-color-1 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
-                <div className="w-full mb-1">
-                    <SectionHeader title="Clientes" iconHeader={FiUsers}/>
-                    <TableActions modelName='Proyecto' onAdd={onAdd} onRefresh={onRefresh}/>
-                    <CreateProjectModal isVisible={isModalVisible} onClose={onCloseModal} onSubmitCreate={onSubmitCreate} onSubmitEdit={onSubmitEdit} data={project}/>
-                    <DataTable columns={columns} data={projects} onEdit={onEdit} onDelete={onDelete}/>
-                </div>
-            </div>
-        </div>
+        <>
+            <SectionHeader title="Clientes" iconHeader={FiUsers} />
+            <DataActions modalRoute='customer' modelName='Client' onAdd={onAdd} onRefresh={onRefresh} />
+            <CreateProjectModal isVisible={isModalVisible} onClose={onCloseModal} onSubmitCreate={onSubmitCreate} onSubmitEdit={onSubmitEdit} data={project} />
+            <DataTable columns={columns} data={projects} onEdit={onEdit} onDelete={onDelete} />
+        </>
+
     )
 }

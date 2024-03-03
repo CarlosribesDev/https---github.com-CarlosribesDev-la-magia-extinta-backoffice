@@ -43,3 +43,9 @@
         background-color: #B01962
     }
 }
+
+.gallery {
+    display: grid;
+    gap: 4rem;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}

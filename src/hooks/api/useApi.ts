@@ -6,11 +6,7 @@ export const useApi = (baseUrl: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Método para GET con Query Params
-  const get = async (endpoint: string, params = {}) => {
-    console.log('GET')
-    console.log(`${baseUrl}${endpoint}`);
-    
+  const get = async (endpoint: string, params = {}) => {    
     try {
       setLoading(true);
       const response = await axios.get(`${baseUrl}${endpoint}`, { params });
@@ -23,7 +19,6 @@ export const useApi = (baseUrl: string) => {
     }
   };
 
-   // Método para POST
    const post = async (endpoint: string, postData: any) => {
     try {
       setLoading(true);
@@ -37,7 +32,6 @@ export const useApi = (baseUrl: string) => {
     }
   };
 
-  // Método para PUT
   const put = async (endpoint: string, putData: any) => {
     try {
       setLoading(true);
