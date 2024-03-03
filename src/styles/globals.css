@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    primary-color-bg: #753364
+}
 
 .bg-color-1 {
     @apply bg-white;
@@ -44,6 +47,19 @@
     }
 }
 
+.form-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+
+    label {
+        margin-bottom: 0.5rem;
+    }
+
+    input {
+        border: 1px solid black;
+    }
+}
 .gallery {
     display: grid;
     gap: 4rem;

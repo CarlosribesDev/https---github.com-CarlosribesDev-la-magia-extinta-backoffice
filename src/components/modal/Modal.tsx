@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 
 
-export default function Modal({ title, onClose, onOk, children }: ModalBaseProps) {
+export default function Modal({ title, children }: ModalBaseProps) {
 
 
     const searchParams = useSearchParams()
@@ -22,16 +22,6 @@ export default function Modal({ title, onClose, onOk, children }: ModalBaseProps
         }
     }, [showDialog])
 
-    const closeDialog = () => {
-        dialogRef.current?.close()
-        onClose()
-        router.back()
-    }
-
-    const onClickOk = () => {
-        onOk()
-        closeDialog()
-    }
 
     return showDialog === 'y'
         ? (
@@ -39,7 +29,6 @@ export default function Modal({ title, onClose, onOk, children }: ModalBaseProps
                 <div className="w-[500px] max-w-fullbg-gray-200 flex flex-col">
                     <div className="flex flex-row justify-between mb-4 pt-2 px-5 bg-yellow-400">
                         <h1 className="text-2xl">{title}</h1>
-                        <button className="mb-2 py-1 px-2 cursor-pointer rounded border-none w-8 h-8 font-bold bg-red-600 text-white" onClick={closeDialog}>X</button>
                     </div>
                     <div className="px-5 pb-6">
                         {children}

@@ -1,7 +1,7 @@
 import  { Project, CreatedProject }  from './project';
-import { Product } from './product';
+import { Product, CreateProduct } from './product';
 import { Page, Pageable } from './page';
 
 export { Project, CreatedProject};
 
-export type { Product, Page, Pageable }
+export type { Product, CreateProduct, Page, Pageable }

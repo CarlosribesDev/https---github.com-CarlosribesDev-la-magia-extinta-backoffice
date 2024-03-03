@@ -8,3 +8,10 @@ export type Product = {
     price: number;
     uploadDate: Date; 
 }
+
+export type CreateProduct = {
+    name: string,
+    description: string,
+    file: File,
+    price: number
+}

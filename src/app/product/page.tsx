@@ -5,7 +5,7 @@ import { SectionHeader } from '@/components/layaout';
 import AddProductModal from '@/components/modal/AddProductModal';
 import { DataActions } from '@/components/table';
 import { useProductApi } from '@/hooks/api';
-import { Product } from '@/model';
+import { CreateProduct, Product } from '@/model';
 
 import { useEffect, useState } from 'react';
 import { PiPaintBrushHouseholdFill } from 'react-icons/pi';
@@ -14,7 +14,7 @@ import { PiPaintBrushHouseholdFill } from 'react-icons/pi';
 export default function ProductPage() {
 
     const [products, setProducts] = useState<Product[]>([])
-    const { fetchProducts } = useProductApi();
+    const { fetchProducts, addProduct } = useProductApi();
 
 
     useEffect(()=> {
@@ -33,8 +33,11 @@ export default function ProductPage() {
         console.log("añadir")
     }
 
-    const onSubmitAddProduct = () => {
+    const onSubmitAddProduct = (data: CreateProduct) => {
         console.log("aceptado")
+        console.log(data)
+        addProduct(data)
+
     }
 
     const onClose = () => {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { ContentType } from '@/constants/contentType';
 
 export const useApi = (baseUrl: string) => {
   const [data, setData] = useState(null);
@@ -8,6 +9,7 @@ export const useApi = (baseUrl: string) => {
 
   const get = async (endpoint: string, params = {}) => {    
     try {
+      console.log(baseUrl)
       setLoading(true);
       const response = await axios.get(`${baseUrl}${endpoint}`, { params });
       setData(response.data);
@@ -19,7 +21,8 @@ export const useApi = (baseUrl: string) => {
     }
   };
 
-   const post = async (endpoint: string, postData: any) => {
+  const post = async (endpoint: string, postData: any) => {
+
     try {
       setLoading(true);
       const response = await axios.post(`${baseUrl}${endpoint}`, postData);
