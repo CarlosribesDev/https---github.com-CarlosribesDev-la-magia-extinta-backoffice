@@ -2,24 +2,27 @@
 import { useSearchParams } from "next/navigation"
 import { useRef, useEffect } from "react"
 import { ModalBaseProps } from "./types"
-import { useRouter } from 'next/navigation';
 
 
-
-export default function Modal({ title, children }: ModalBaseProps) {
+export default function Modal({ title, id, children, reset }: ModalBaseProps) {
 
 
     const searchParams = useSearchParams()
-    const router = useRouter()
     const dialogRef = useRef<null | HTMLDialogElement>(null)
-    const showDialog = searchParams.get('showDialog')
+    const showDialog = searchParams.get(id)
 
     useEffect(() => {
         if (showDialog === 'y') {
             dialogRef.current?.showModal()
         } else {
+            console.log('reset');
+            console.log(id);
+
+
             dialogRef.current?.close()
+            reset()
         }
+
     }, [showDialog])
 
 

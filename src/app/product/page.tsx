@@ -2,10 +2,14 @@
 'use client'
 import { ProductCard } from '@/components/card';
 import { SectionHeader } from '@/components/layaout';
-import AddProductModal from '@/components/modal/AddProductModal';
+import AddProductModal from '@/components/modal/product/AddProductModal';
+import EditProductModal from '@/components/modal/product/EditProductModal';
 import { DataActions } from '@/components/table';
+import { ModalId } from '@/constants/modalId';
+import { productStatus } from '@/constants/productStatus';
 import { useProductApi } from '@/hooks/api';
 import { CreateProduct, Product } from '@/model';
+import { useRouter } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 import { PiPaintBrushHouseholdFill } from 'react-icons/pi';
@@ -13,31 +17,40 @@ import { PiPaintBrushHouseholdFill } from 'react-icons/pi';
 
 export default function ProductPage() {
 
+    const router = useRouter()
     const [products, setProducts] = useState<Product[]>([])
-    const { fetchProducts, addProduct } = useProductApi();
-
+    const [productSelected, setProductSelected] = useState<Product>({
+        id: 0,
+        name: '',
+        description: '',
+        imageUrl: '',
+        imageId: '',
+        status: productStatus.AVAILABLE,
+        price: 0,
+        uploadDate: new Date(),
+    })
+    const { fetchProducts, addProduct } = useProductApi()
 
     useEffect(()=> {
-        
-        const fetchData = async () => {
-            const response = await fetchProducts();
-            setProducts(response)
-        }
-
         fetchData();
+    }, []) 
 
-    }, [])
 
-
-    const onAdd = () => {
-        console.log("añadir")
+    const fetchData = async () => {
+        const response = await fetchProducts();
+        setProducts(response)
     }
 
-    const onSubmitAddProduct = (data: CreateProduct) => {
-        console.log("aceptado")
-        console.log(data)
-        addProduct(data)
+    const onAdd = () => {
+        router.push(`/product?${ModalId.addProduct}=y`)
+    }
 
+    const onSubmitAddProduct = async (data: CreateProduct) => {
+        await addProduct(data)
+        fetchData()
+    }
+
+    const onSubmitEditProduct = async (data: Product) => {
     }
 
     const onClose = () => {
@@ -46,18 +59,23 @@ export default function ProductPage() {
     }
 
     const onRefresh = () => {
-        console.log("refrescar")
+        fetchData()
+    }
+
+    const openEdit = (product: Product) => {
+        setProductSelected(product)
+        router.push(`/product?${ModalId.editProduct}=y`)
     }
 
     return (
         <>
             <SectionHeader title="Productos" iconHeader={PiPaintBrushHouseholdFill} />
-            <DataActions modelName='Producto' modalRoute='product' onAdd={onAdd} onRefresh={onRefresh} />
+            <DataActions modelName='Producto' onAdd={onAdd} onRefresh={onRefresh} />
             <div className="gallery">
                 {
                     products.map(product => {
                         return (
-                            <ProductCard
+                            <ProductCard onClick={() => openEdit(product)}
                                 key={product.id}
                                 name={product.name}
                                 description={product.description}
@@ -70,6 +88,7 @@ export default function ProductPage() {
                 }
             </div>
             <AddProductModal onSubmit={onSubmitAddProduct} />
+            <EditProductModal onSubmit={onSubmitEditProduct} product={productSelected} />
         </>
     )
 }

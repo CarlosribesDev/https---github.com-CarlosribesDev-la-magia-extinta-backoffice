@@ -1,17 +1,12 @@
-'use client'
-import Link from 'next/link';
 import { LuRefreshCcw } from 'react-icons/lu'
 
 interface TableActionsProps {
-    modelName?: string;
-    modalRoute: string
-    onAdd?: () => void;
-    onRefresh?: () => void;
-
+    modelName?: string,
+    onAdd?: () => void,
+    onRefresh?: () => void
 }
 
-export default function DataActions({ modelName = '', modalRoute, onAdd = () => { }, onRefresh = () => { } }: TableActionsProps) {
-
+export default function DataActions({ modelName = '', onAdd = () => { }, onRefresh = () => { } }: TableActionsProps) {
     return (
         <div className="items-center justify-between block sm:flex mb-5">
             <section className="flex items-center mb-4 sm:mb-0">
@@ -22,7 +17,7 @@ export default function DataActions({ modelName = '', modalRoute, onAdd = () => 
                 </form>
             </section>
             <section className='flex items-center ml-auto space-x-2 sm:space-x-3'>
-                <Link className="button-1" href={`/${modalRoute}?showDialog=y`}> + Crear {modelName}</Link>
+                <button className="button-1" onClick={onAdd}> + Añadir {modelName}</button>
                 <button className="button-1" type="button" onClick={onRefresh}>
                     <LuRefreshCcw className="mr-2" />
                     Refresh

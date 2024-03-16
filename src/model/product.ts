@@ -1,10 +1,12 @@
+import { productStatus } from "@/constants/productStatus";
+
 export type Product = {
     id: number;
     name: string;
     description: string;
     imageUrl: string;
     imageId: string;
-    status: string;
+    status: productStatus;
     price: number;
     uploadDate: Date; 
 }

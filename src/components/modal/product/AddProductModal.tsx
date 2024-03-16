@@ -1,20 +1,15 @@
 'use client'
 import { useRouter } from "next/navigation";
-import Modal from "./Modal";
-import { ModalFormProps } from "./types";
+import Modal from "../Modal";
+import { ModalFormProps } from "../types";
 import { useState } from "react";
-import { CreateProduct } from "@/model";
+import { ModalId } from "@/constants/modalId";
 
 
 export default function AddProductModal({ onSubmit }: ModalFormProps) {
-
     const router = useRouter()
     const [data, setData] = useState({})
 
-    const onClose = () => {
-        setData({})
-        router.push('/product')
-    }
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
@@ -26,15 +21,22 @@ export default function AddProductModal({ onSubmit }: ModalFormProps) {
         })
     }
 
-
     const submit = (event: any) => {
         event.preventDefault()
         onSubmit(data)
         onClose()
     }
 
+    const onClose = () => {
+        router.push('/product')
+    }
+
+    const reset = () => {
+        setData({})
+    }
+
     return (
-        <Modal title={'Añadir producto'}>
+        <Modal title={'Añadir producto'} id={ModalId.addProduct} reset={reset}>
             <form >
                 <section>
                     <div className="form-input">

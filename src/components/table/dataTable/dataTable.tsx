@@ -2,6 +2,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 type Column = {
     title: string;
+    propName: string;
     maxWidth?: string;
 }
 
@@ -34,20 +35,15 @@ export default function DataTable({ columns, data, onDelete, onEdit }: DataTable
             <tbody className="bg-white divide-y divide-gray-200">
                 {data.map((item, index) => (
                     <tr key={index}>
-                        
-                        {Object.values(item).map((value, i) => (
-                            <td key={i} className="px-6 py-4 whitespace-nowrap truncate" style={{ maxWidth: columns[i].maxWidth }}>
-                                {value ? String(value) : '-'}
+                        {columns.map((column, index) => (
+                            <td key={index} className="px-6 py-4 whitespace-nowrap truncate" style={{ maxWidth: column.maxWidth }}>
+                                {item[column.propName] ? String(item[column.propName]) : '-'}
                             </td>
                         ))}
                         <td className="px-8 py-4 whitespace-nowrap">
                             <button className="button-1 mr-4" onClick={() => onEdit && onEdit(item)}>
                                 <FaEdit className="mr-1" />
                                 Editar
-                            </button>
-                            <button className="button-2" onClick={() => onDelete && onDelete(item)}>
-                                <FaTrash className="mr-1" />
-                                Borrar
                             </button>
                         </td>
                     </tr>

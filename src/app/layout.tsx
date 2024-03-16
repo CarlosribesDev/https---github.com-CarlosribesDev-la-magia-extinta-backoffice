@@ -20,8 +20,8 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <link rel="icon" href="/nodejs.png" sizes="any" />
-                <title>Admin</title>
+                <link rel="icon" href="/logo.jpg" sizes="any" />
+                <title>La magia extinta</title>
             </head>
 
             <body className='bg-color-1 scrollbar scrollbar-w-3'>

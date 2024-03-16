@@ -1,19 +1,22 @@
+import { productStatus } from "@/constants/productStatus";
+import { Product } from "@/model";
 
 type ProductCartdParams = {
   name: string;
   description: string;
   imageUrl: string;
   price: number;
-  status: string;
+  status: productStatus;
+  onClick: (product: any) => void
 }
 
 
 
 
-export default function ProductCard({name, description, imageUrl, price, status}: ProductCartdParams) {
+export default function ProductCard({ name, description, imageUrl, price, status, onClick }: ProductCartdParams) {
   
     return (
-      <div className="max-w-sm rounded overflow-hidden shadow-lg mb-2">
+      <div className="max-w-sm rounded overflow-hidden shadow-lg mb-2" onClick={onClick}>
       <img className="w-full" src={imageUrl} alt={name}/>
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{name}</div>

@@ -1,43 +1,53 @@
 'use client'
 import { SectionHeader } from '@/components/layaout'
-import { CreateProjectModal } from '@/components/modal';
+import AddCostumerModal from '@/components/modal/product/AddCostumerModal';
+
 import { DataTable, DataActions } from '@/components/table'
+import { ModalId } from '@/constants/modalId';
+import useCustomerApi from '@/hooks/api/useCustomerApi';
 
 import { CreatedProject, Project } from '@/model';
+import { CreateCustomer, Customer } from '@/model/customer';
 import { ProjectService } from '@/service';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiUsers } from "react-icons/fi";
 
 const columns = [
-    { title: 'Nombre', maxWidth: '70px' },
-    { title: 'Apellidos', maxWidth: '300px' },
-    { title: 'Email', maxWidth: '300px' },
-    { title: 'Localidad', maxWidth: '120px' },
+    { title: 'Nombre', propName: 'name', maxWidth: '70px' },
+    { title: 'Apellidos', propName: 'surname', maxWidth: '140px' },
+    { title: 'Email', propName: 'email', maxWidth: '300px' },
+    { title: 'Teléfono', propName: 'phone', maxWidth: '120px' },
+    { title: 'Dirección', propName: 'address', maxWidth: '300px' },
+    { title: 'Población', propName: 'location', maxWidth: '120px' },
 ];
 
 export default function ProjectPage() {
 
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [project, setProject] = useState<Project | null>(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const router = useRouter()
+    const [customers, setCustomers] = useState<Customer[]>([])
+    const { fetchCustomers, addCustomer } = useCustomerApi()
 
-    const updateProjects = (): void => {
-        ProjectService.getAll().then((res) => setProjects(res));
-    };
+
+
 
     useEffect(() => { 
-        updateProjects();
+        fetchData();
     }, [])
+
+    const fetchData = async () => {
+        const response = await fetchCustomers()
+        setCustomers(response)
+    }
 
 
     const onAdd = () => { 
-        setProject(null);
-        setIsModalVisible(true);
+        router.push(`/customer?${ModalId.addCustomer}=y`)
     }
 
     const onEdit = (project: Project) => {
-        setProject(project);
-        setIsModalVisible(true);
+
+
     }
 
     const onDelete = (project: Project) => {
@@ -45,35 +55,26 @@ export default function ProjectPage() {
     }
 
     const onRefresh = () => {
-        updateProjects();
+        fetchData()
     }
 
     const onCloseModal = () => {
-        setIsModalVisible(false);
+
     }
 
-    const onSubmitCreate = (project: CreatedProject) => {
-        ProjectService.create(project).then(() => {
-            updateProjects();
-            setIsModalVisible(false);
 
-        });
-    }
-
-    const onSubmitEdit = (project: Project) => {
-        ProjectService.update(project).then(() => {
-            updateProjects();
-            setIsModalVisible(false);
-
-        });
+    const onSubmitAddCustomer = async (customer: CreateCustomer) => {
+        console.log(customer);
+        await addCustomer(customer)
+        fetchData()
     }
 
     return (
         <>
             <SectionHeader title="Clientes" iconHeader={FiUsers} />
-            <DataActions modalRoute='customer' modelName='Client' onAdd={onAdd} onRefresh={onRefresh} />
-            <CreateProjectModal isVisible={isModalVisible} onClose={onCloseModal} onSubmitCreate={onSubmitCreate} onSubmitEdit={onSubmitEdit} data={project} />
-            <DataTable columns={columns} data={projects} onEdit={onEdit} onDelete={onDelete} />
+            <DataActions modelName='Cliente' onAdd={onAdd} onRefresh={onRefresh} />
+            <DataTable columns={columns} data={customers} onEdit={onEdit} onDelete={onDelete} />
+            <AddCostumerModal onSubmit={onSubmitAddCustomer} /> 
         </>
 
     )
