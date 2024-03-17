@@ -9,6 +9,11 @@ export type Customer = {
     createdDate: Date
 }
 
+export type SimpleCustomer = {
+    id: number;
+    data: string;
+}
+
 export type CreateCustomer = {
     name: string;
     surname: string;

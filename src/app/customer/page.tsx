@@ -1,14 +1,13 @@
 'use client'
 import { SectionHeader } from '@/components/layaout'
-import AddCostumerModal from '@/components/modal/product/AddCostumerModal';
+import AddCostumerModal from '@/components/modal/customer/AddCostumerModal';
 
 import { DataTable, DataActions } from '@/components/table'
 import { ModalId } from '@/constants/modalId';
 import useCustomerApi from '@/hooks/api/useCustomerApi';
 
-import { CreatedProject, Project } from '@/model';
+import { Project } from '@/model';
 import { CreateCustomer, Customer } from '@/model/customer';
-import { ProjectService } from '@/service';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiUsers } from "react-icons/fi";

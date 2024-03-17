@@ -4,29 +4,38 @@ import { ModalId } from '@/constants/modalId';
 import { useRouter } from 'next/navigation';
 import { Product } from '@/model';
 import { productStatus } from '@/constants/productStatus';
+import useCustomerApi from '@/hooks/api/useCustomerApi';
+import { SimpleCustomer } from '@/model/customer';
 
 type EditProductModalProps = {
     onSubmit: (data: any) => void,
     product: Product
 }
 
-
-
-
 export default function EditProductModal({ onSubmit, product }: EditProductModalProps) {
     const router = useRouter()
     const [data, setData] = useState<any>()
+    const [customerData, setCustomerData] = useState<SimpleCustomer[]>()
+    const { fetchSimpleCustomers } = useCustomerApi()
+
 
     useEffect(() => {
         reset()
+        fetchCustomers()
     }, [product])
+
+    const fetchCustomers = async () => {
+        const fetchData = await fetchSimpleCustomers();
+        setCustomerData(fetchData)
+    }
 
     const reset = () => {
         setData({
             name: product.name,
             description: product.description,
             price: product.price,
-            status: product.status
+            status: product.status,
+            customerId: 1
         })
     }
 
@@ -52,7 +61,7 @@ export default function EditProductModal({ onSubmit, product }: EditProductModal
 
     return (
         <Modal title={'Editar producto'} id={ModalId.editProduct} reset={reset}>
-            <form >
+            <form>
                 <section>
                     <div className="form-input">
                         <label>Nombre</label>
@@ -75,6 +84,16 @@ export default function EditProductModal({ onSubmit, product }: EditProductModal
                             <option value={productStatus.SOLD}>Vendido</option>
                         </select>
                     </div>
+                    {data?.status === productStatus.SOLD ?
+                        <div className="form-input">
+                            <label>Cliente</label>
+                            <select name="customerId" value={data?.customerId} onChange={handleChange}>
+                                {customerData?.map(customer =>
+                                    <option key={customer.id} value={customer.id}>{customer.data}</option>
+                                )}
+                            </select>
+                        </div> : null
+                    }
                 </section>
                 <footer className='flex justify-between mt-6'>
                     <button type="submit" className="button-1" onClick={submit}>

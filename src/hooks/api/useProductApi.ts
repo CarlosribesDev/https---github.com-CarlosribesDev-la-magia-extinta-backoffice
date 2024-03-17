@@ -1,6 +1,6 @@
 import { CreateProduct, Page, Product } from "@/model";
 import { useApi } from "./useApi";
-import { ContentType } from "@/constants/contentType";
+import { EditProduct } from "@/model/product";
 
 export default function useProductApi() {
     const { get, post, put, del } = useApi(`${process.env.NEXT_PUBLIC_BACKOFFICE_BACK_URL}/product`)
@@ -10,7 +10,6 @@ export default function useProductApi() {
     }
 
     const addProduct = async (product: CreateProduct): Promise<void> => {
-        console.log(product)
         const data = new FormData();
         data.append('name', product.name)
         data.append('description', product.description)
@@ -20,5 +19,9 @@ export default function useProductApi() {
         await post("", data)
     }
 
-    return { fetchProducts, addProduct }
+    const editProduct = async (id: number, product: EditProduct): Promise<void> => {
+        await put(`/${id}`, product)
+    }
+
+    return { fetchProducts, editProduct, addProduct }
 }

@@ -9,6 +9,7 @@ import { ModalId } from '@/constants/modalId';
 import { productStatus } from '@/constants/productStatus';
 import { useProductApi } from '@/hooks/api';
 import { CreateProduct, Product } from '@/model';
+import { EditProduct } from '@/model/product';
 import { useRouter } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
@@ -29,7 +30,7 @@ export default function ProductPage() {
         price: 0,
         uploadDate: new Date(),
     })
-    const { fetchProducts, addProduct } = useProductApi()
+    const { fetchProducts, editProduct, addProduct } = useProductApi()
 
     useEffect(()=> {
         fetchData();
@@ -50,12 +51,9 @@ export default function ProductPage() {
         fetchData()
     }
 
-    const onSubmitEditProduct = async (data: Product) => {
-    }
-
-    const onClose = () => {
-        console.log("close")
-
+    const onSubmitEditProduct = async (data: EditProduct) => {
+        console.log(data)
+        editProduct(productSelected.id, data)
     }
 
     const onRefresh = () => {

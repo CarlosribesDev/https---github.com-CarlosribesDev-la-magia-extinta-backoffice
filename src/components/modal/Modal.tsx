@@ -6,7 +6,6 @@ import { ModalBaseProps } from "./types"
 
 export default function Modal({ title, id, children, reset }: ModalBaseProps) {
 
-
     const searchParams = useSearchParams()
     const dialogRef = useRef<null | HTMLDialogElement>(null)
     const showDialog = searchParams.get(id)
@@ -15,10 +14,6 @@ export default function Modal({ title, id, children, reset }: ModalBaseProps) {
         if (showDialog === 'y') {
             dialogRef.current?.showModal()
         } else {
-            console.log('reset');
-            console.log(id);
-
-
             dialogRef.current?.close()
             reset()
         }

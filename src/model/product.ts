@@ -11,6 +11,14 @@ export type Product = {
     uploadDate: Date; 
 }
 
+export type EditProduct = {
+    name: string;
+    description: string;
+    status: productStatus;
+    price: number;
+    customerId: number;
+}
+
 export type CreateProduct = {
     name: string,
     description: string,
