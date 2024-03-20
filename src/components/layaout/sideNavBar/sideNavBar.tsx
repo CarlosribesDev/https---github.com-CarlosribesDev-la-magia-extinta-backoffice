@@ -23,12 +23,13 @@ const menuItems: MenuItemData[] = [
     {route: '/', title: 'Inicio', icon: FaHome},
     {route: '/customer', title: 'Clientes', icon: FiUsers},
     {route: '/product', title: 'Productos', icon: PiPaintBrushHouseholdFill },
-    {route: '/service', title: 'Servicios', icon: FaBriefcase},
+    { route: '/painting_service', title: 'Servicios', icon: FaBriefcase },
     {route: '/sale', title: 'Pagos', icon: FaFileInvoiceDollar},
+    { route: '/param', title: 'Configuración', icon: FcSupport },
 ]
 
 const menuItems2: MenuItemData[] = [
-    {route: '/support', title: 'Support', icon: FcSupport},
+
 ]
 
 export default function SideNavBar() {

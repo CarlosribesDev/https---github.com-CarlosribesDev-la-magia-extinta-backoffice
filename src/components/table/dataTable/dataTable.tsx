@@ -10,10 +10,9 @@ interface DataTableProps {
     columns: Column[];
     data: any[];
     onEdit?: (data: any) => void;
-    onDelete?: (data: any) => void;
 }
 
-export default function DataTable({ columns, data, onDelete, onEdit }: DataTableProps) {
+export default function DataTable({ columns, data, onEdit }: DataTableProps) {
     return (
         <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -27,9 +26,12 @@ export default function DataTable({ columns, data, onDelete, onEdit }: DataTable
                             {column.title}
                         </th>
                     ))}
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Acciones
-                    </th>
+                    {onEdit && 
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Acciones
+                        </th>
+                    }
+
                 </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -40,12 +42,14 @@ export default function DataTable({ columns, data, onDelete, onEdit }: DataTable
                                 {item[column.propName] ? String(item[column.propName]) : '-'}
                             </td>
                         ))}
-                        <td className="px-8 py-4 whitespace-nowrap">
-                            <button className="button-1 mr-4" onClick={() => onEdit && onEdit(item)}>
-                                <FaEdit className="mr-1" />
-                                Editar
-                            </button>
-                        </td>
+                        {onEdit && 
+                            <td className="px-8 py-4 whitespace-nowrap">
+                                <button className="button-1 mr-4" onClick={() => onEdit && onEdit(item)}>
+                                    <FaEdit className="mr-1" />
+                                    Editar
+                                </button>
+                            </td>
+                        }
                     </tr>
                 ))}
             </tbody>

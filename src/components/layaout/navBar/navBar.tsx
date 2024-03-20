@@ -1,8 +1,6 @@
 import React from 'react'
 import Logo from './components/menuIcon'
 import HamburguerButton from './components/hamburguerButton'
-import NotificationButton from './components/notificationButton'
-import UserIcon from './components/userIcon'
 
 export default function NavBar() {
     return (
@@ -13,10 +11,7 @@ export default function NavBar() {
                     <HamburguerButton/>
                     <Logo/>
                 </section>
-                <section className="flex items-center">
-                    <NotificationButton/>             		
-                    <UserIcon/>
-                </section>
+
             </div>
         </nav>
     )

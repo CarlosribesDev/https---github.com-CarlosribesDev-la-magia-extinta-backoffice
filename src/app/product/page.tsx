@@ -54,6 +54,7 @@ export default function ProductPage() {
     const onSubmitEditProduct = async (data: EditProduct) => {
         console.log(data)
         editProduct(productSelected.id, data)
+        fetchData()
     }
 
     const onRefresh = () => {

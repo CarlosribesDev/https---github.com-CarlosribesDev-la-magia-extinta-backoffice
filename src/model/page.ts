@@ -5,8 +5,6 @@ export type Page = {
     last: boolean;
     pageable: Pageable;
     size: number;
-
-
 }
 
 export type Pageable = {

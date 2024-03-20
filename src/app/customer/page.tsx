@@ -5,8 +5,6 @@ import AddCostumerModal from '@/components/modal/customer/AddCostumerModal';
 import { DataTable, DataActions } from '@/components/table'
 import { ModalId } from '@/constants/modalId';
 import useCustomerApi from '@/hooks/api/useCustomerApi';
-
-import { Project } from '@/model';
 import { CreateCustomer, Customer } from '@/model/customer';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -27,9 +25,6 @@ export default function ProjectPage() {
     const [customers, setCustomers] = useState<Customer[]>([])
     const { fetchCustomers, addCustomer } = useCustomerApi()
 
-
-
-
     useEffect(() => { 
         fetchData();
     }, [])
@@ -44,23 +39,12 @@ export default function ProjectPage() {
         router.push(`/customer?${ModalId.addCustomer}=y`)
     }
 
-    const onEdit = (project: Project) => {
-
-
-    }
-
-    const onDelete = (project: Project) => {
-
+    const onEdit = (data: any) => {
     }
 
     const onRefresh = () => {
         fetchData()
     }
-
-    const onCloseModal = () => {
-
-    }
-
 
     const onSubmitAddCustomer = async (customer: CreateCustomer) => {
         console.log(customer);
@@ -72,9 +56,8 @@ export default function ProjectPage() {
         <>
             <SectionHeader title="Clientes" iconHeader={FiUsers} />
             <DataActions modelName='Cliente' onAdd={onAdd} onRefresh={onRefresh} />
-            <DataTable columns={columns} data={customers} onEdit={onEdit} onDelete={onDelete} />
+            <DataTable columns={columns} data={customers} onEdit={onEdit} />
             <AddCostumerModal onSubmit={onSubmitAddCustomer} /> 
         </>
-
     )
 }
