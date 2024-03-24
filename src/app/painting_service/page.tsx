@@ -1,12 +1,12 @@
 'use client'
 import { SectionHeader } from '@/components/layaout';
-import AddCostumerModal from '@/components/modal/customer/AddCostumerModal';
+import AddPaintingModal from '@/components/modal/painting_service/AddPaintingServiceModal';
+import EditPaintingServiceModal from '@/components/modal/painting_service/EditPaintingServiceModal';
 import { DataActions, DataTable } from '@/components/table';
 import { ModalId } from '@/constants/modalId';
-import useCustomerApi from '@/hooks/api/useCustomerApi';
+import { paintingServiceStatus } from '@/constants/paintingServiceStatus';
 import usePaintingService from '@/hooks/api/usePaintingServiceApi';
-import { CreateCustomer, Customer } from '@/model/customer';
-import { PaintingService } from '@/model/paintingService';
+import { CreatePaintingServiceRequest, PaintingService, UpdatePaintingServiceRequest } from '@/model/paintingService';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { FaBriefcase } from 'react-icons/fa';
@@ -17,6 +17,7 @@ const columns = [
     { title: 'Tamaño lienzo', propName: 'canvasSize', maxWidth: '120px' },
     { title: 'Cliente', propName: 'customer', maxWidth: '300px' },
     { title: 'Precio', propName: 'price', maxWidth: '120px' },
+    { title: 'Estado', propName: 'status', maxWidth: '120px' },
     { title: 'Fecha inicio', propName: 'startDate', maxWidth: '120px' },
 ];
 
@@ -24,7 +25,18 @@ const columns = [
 export default function PaintingServicePage() {
     const router = useRouter()
     const [paitningServices, setPaintingServices] = useState<PaintingService[]>([])
-    const { fetchPaintingServices } = usePaintingService()
+    const [selectedService, setSelectedService] = useState<PaintingService>({
+        id: 0,
+        type: '',
+        description: '',
+        m2: 0,
+        canvasSize: '',
+        customer: '',
+        price: 0,
+        status: paintingServiceStatus.IN_PROGRESS,
+        startDate: new Date()
+    })
+    const { fetchPaintingServices, createPaintingService, updatePaintingService } = usePaintingService()
 
     useEffect(() => {
         fetchData();
@@ -35,21 +47,26 @@ export default function PaintingServicePage() {
         setPaintingServices(response)
     }
 
-
     const onAdd = () => {
-        router.push(`/customer?${ModalId.addCustomer}=y`)
+        router.push(`/painting_service?${ModalId.addService}=y`)
     }
 
-    const onEdit = (data: any) => {
+    const onEdit = (service: PaintingService) => {
+        setSelectedService(service)
+        router.push(`/painting_service?${ModalId.editService}=y`)
     }
 
     const onRefresh = () => {
         fetchData()
     }
 
-    const onSubmitAddCustomer = async (customer: CreateCustomer) => {
-        console.log(customer);
-        // await addCustomer(customer)
+    const onSubmitAddPaintingService = async (service: CreatePaintingServiceRequest) => {
+        await createPaintingService(service);
+        fetchData()
+    }
+
+    const onSubmitEditPaintingService = async (service: UpdatePaintingServiceRequest) => {
+        await updatePaintingService(selectedService.id, service);
         fetchData()
     }
 
@@ -58,7 +75,8 @@ export default function PaintingServicePage() {
             <SectionHeader title="Servicios" iconHeader={FaBriefcase} />
             <DataActions modelName='Servicio' onAdd={onAdd} onRefresh={onRefresh} />
             <DataTable columns={columns} data={paitningServices} onEdit={onEdit} />
-            <AddCostumerModal onSubmit={onSubmitAddCustomer} />
+            <AddPaintingModal onSubmit={onSubmitAddPaintingService} />
+            <EditPaintingServiceModal service={selectedService} onSubmit={onSubmitEditPaintingService} />
         </>
     )
 }

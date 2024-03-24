@@ -11,7 +11,7 @@ export default function AddCostumerModal({ onSubmit }: ModalFormProps) {
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
-        const value = target.type === 'file' ? target.files && target.files[0] : target.value
+        const value = target.value
 
         setData({
             ...data,

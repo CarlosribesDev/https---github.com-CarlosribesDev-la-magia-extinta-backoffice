@@ -1,7 +1,7 @@
 import { Sale } from "@/model/sale";
 import { useApi } from "./useApi";
 import { Param } from "@/model/param";
-import { CreatePaintingServiceRequest, PaintingService } from "@/model/paintingService";
+import { CreatePaintingServiceRequest, PaintingService, UpdatePaintingServiceRequest } from "@/model/paintingService";
 
 export default function usePaintingService() {
     const { get, post, put, del } = useApi(`${process.env.NEXT_PUBLIC_BACKOFFICE_BACK_URL}/paintingservice`)
@@ -14,9 +14,9 @@ export default function usePaintingService() {
         return await post("", data)
     }
 
-    // const updatePaintingService = async (key: string, value: number): Promise<Param[]> => {
-    //     return await put("", { key, value })
-    // }
+    const updatePaintingService = async (id: number, request: UpdatePaintingServiceRequest): Promise<void> => {
+        await put(`/${id}`, request)
+    }
 
-    return { fetchPaintingServices, createPaintingService }
+    return { fetchPaintingServices, createPaintingService, updatePaintingService }
 }

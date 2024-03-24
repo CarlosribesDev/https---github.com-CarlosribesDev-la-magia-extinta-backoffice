@@ -1,5 +1,7 @@
 export enum ModalId {
     addProduct = 'showCreateProduct',
     addCustomer = 'showCreateCustomer',
-    editProduct = 'showEditProduct'
+    editProduct = 'showEditProduct',
+    addService = 'showCreateService',
+    editService = 'showEditService'
 }

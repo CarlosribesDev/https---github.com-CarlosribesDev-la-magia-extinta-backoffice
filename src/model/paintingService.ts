@@ -1,3 +1,5 @@
+import { paintingServiceStatus } from "@/constants/paintingServiceStatus"
+
 export type PaintingService = {
     id: number,
     type: string,
@@ -6,6 +8,7 @@ export type PaintingService = {
     canvasSize: string,
     customer: string,
     price: number,
+    status: paintingServiceStatus,
     startDate: Date
 }
 
@@ -15,5 +18,12 @@ export type CreatePaintingServiceRequest = {
     m2: number,
     canvasSize: string,
     customerId: number,
+    startDate: Date
+}
+
+export type UpdatePaintingServiceRequest = {
+    description: string,
+    price: number,
+    status: paintingServiceStatus,
     startDate: Date
 }
