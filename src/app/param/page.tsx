@@ -1,10 +1,12 @@
 'use client'
 import { SectionHeader } from '@/components/layaout'
+import EditParamModal from '@/components/modal/param/EditParamModal';
 import { DataTable } from '@/components/table'
+import { ModalId } from '@/constants/modalId';
 import useParamApi from '@/hooks/api/useParamApi';
 import { Param } from '@/model/param';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { FaFileInvoiceDollar } from 'react-icons/fa';
 import { FcSupport } from 'react-icons/fc';
 
 const columns = [
@@ -16,10 +18,16 @@ const columns = [
 
 export default function ParamPage() {
     const [params, setParams] = useState<Param[]>([])
+    const [selectedParam, setSelectedParam] = useState<Param>({
+        key: '',
+        description: '',
+        value: 0,
+    })
     const { fetchParams, updateParams } = useParamApi()
+    const router = useRouter()
 
     useEffect(() => {
-        fetchData();
+        fetchData()
     }, [])
 
     const fetchData = async () => {
@@ -27,16 +35,21 @@ export default function ParamPage() {
         setParams(response)
     }
 
-    const onEdit = () => {
-
+    const onEdit = (param: Param) => {
+        setSelectedParam(param)
+        router.push(`/param?${ModalId.editParam}=y`)
     }
 
-
+    const onSumitEditParam = async (param: Param) => {
+        await updateParams(param.key, param.value)
+        fetchData()
+    }
 
     return (
         <>
             <SectionHeader title="Parámetros" iconHeader={FcSupport} />
             <DataTable columns={columns} data={params} onEdit={onEdit} />
+            <EditParamModal onSubmit={onSumitEditParam} param={selectedParam} />
         </>
     )
 }

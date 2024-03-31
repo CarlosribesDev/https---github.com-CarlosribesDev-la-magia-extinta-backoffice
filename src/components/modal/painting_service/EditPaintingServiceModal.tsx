@@ -54,10 +54,8 @@ export default function EditPaintingServiceModal({ onSubmit, service }: EditProd
         })
     }
 
-
-
     return (
-        <Modal title={'Añadir servicio'} id={ModalId.editService} reset={reset}>
+        <Modal title={'Editar servicio'} id={ModalId.editService} reset={reset}>
             <form >
                 <section>
                     <div className="form-input">
