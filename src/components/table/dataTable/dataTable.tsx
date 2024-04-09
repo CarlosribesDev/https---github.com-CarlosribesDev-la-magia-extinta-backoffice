@@ -35,7 +35,7 @@ export default function DataTable({ columns, data, onEdit }: DataTableProps) {
                 </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-                {data.map((item, index) => (
+                {data?.map((item, index) => (
                     <tr key={index}>
                         {columns.map((column, index) => (
                             <td key={index} className="px-6 py-4 whitespace-nowrap truncate" style={{ maxWidth: column.maxWidth }}>

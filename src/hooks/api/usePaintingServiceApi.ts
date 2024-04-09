@@ -4,7 +4,7 @@ import { Param } from "@/model/param";
 import { CreatePaintingServiceRequest, PaintingService, UpdatePaintingServiceRequest } from "@/model/paintingService";
 
 export default function usePaintingService() {
-    const { get, post, put, del } = useApi(`${process.env.NEXT_PUBLIC_BACKOFFICE_BACK_URL}/paintingservice`)
+    const { get, post, put } = useApi(`${process.env.NEXT_PUBLIC_BACKOFFICE_BACK_URL}/paintingservice`)
 
     const fetchPaintingServices = async (): Promise<PaintingService[]> => {
         return await get("")

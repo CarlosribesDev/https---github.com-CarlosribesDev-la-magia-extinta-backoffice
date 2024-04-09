@@ -10,6 +10,14 @@
         --disabled-color: #9C9A9A;
 }
 
+.home-form {
+    max-width: 2000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
 .bg-primary {
     background-color: var(--primary-color-bg);
 }

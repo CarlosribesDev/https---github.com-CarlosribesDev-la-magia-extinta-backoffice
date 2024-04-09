@@ -6,10 +6,26 @@ export const useApi = (baseUrl: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const apiClient = axios.create({
+    baseURL: baseUrl,
+  });
+
+  apiClient.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  });
+
+
   const get = async (endpoint: string, params = {}) => {    
     try {
       setLoading(true);
-      const response = await axios.get(`${baseUrl}${endpoint}`, { params });
+      const response = await apiClient.get(`${baseUrl}${endpoint}`, { params });
       setData(response.data);
       return response.data;
     } catch (error: any) {
@@ -23,7 +39,7 @@ export const useApi = (baseUrl: string) => {
 
     try {
       setLoading(true);
-      const response = await axios.post(`${baseUrl}${endpoint}`, postData);
+      const response = await apiClient.post(`${baseUrl}${endpoint}`, postData);
       setData(response.data);
       return response.data;
     } catch (error: any) {
@@ -36,7 +52,7 @@ export const useApi = (baseUrl: string) => {
   const put = async (endpoint: string, putData: any) => {
     try {
       setLoading(true);
-      const response = await axios.put(`${baseUrl}${endpoint}`, putData);
+      const response = await apiClient.put(`${baseUrl}${endpoint}`, putData);
       setData(response.data);
       return response.data;
     } catch (error: any) {
@@ -45,20 +61,7 @@ export const useApi = (baseUrl: string) => {
       setLoading(false);
     }
   };
-  
-  const deleteRequest = async (endpoint: string) => {
-    try {
-      setLoading(true);
-      const response = await axios.delete(`${baseUrl}${endpoint}`);
-      setData(null);
-      return true;
-    } catch (error: any) {
-      setError(error);
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  return { data, loading, error, get, post, put, del: deleteRequest };
+
+  return { data, loading, error, get, post, put };
 };
