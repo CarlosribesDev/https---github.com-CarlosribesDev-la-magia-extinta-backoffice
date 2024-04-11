@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { Field, FieldValues, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputValidation, loginSchema } from ".";
 

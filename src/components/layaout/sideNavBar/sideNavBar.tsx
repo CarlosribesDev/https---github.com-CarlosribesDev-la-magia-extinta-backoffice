@@ -2,9 +2,6 @@
 import React, { useContext } from 'react'
 import MenuItem from './components/menuItem'
 import { FaHome } from 'react-icons/fa';
-import { IoIosSettings } from "react-icons/io";
-import { GiElectric } from "react-icons/gi";
-import { AiOutlineFundProjectionScreen } from "react-icons/ai"
 import { PiPaintBrushHouseholdFill } from "react-icons/pi";
 import { FcSupport } from "react-icons/fc";
 import { IconType } from 'react-icons';

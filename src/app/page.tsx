@@ -1,17 +1,24 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SectionHeader } from "@/components/layaout";
 import { FaHome } from "react-icons/fa";
 import useAdminApi from "@/hooks/api/useAdmin";
+import { GlobalContext } from "@/context/globalContex";
 
 
 export default function Home() {
 
     const [data, setData] = useState<any>({})
+    const [isLogged, setIsLogged] = useState(false)
     const { authenticate } = useAdminApi()
 
+
     useEffect(() => {
-    })
+        const token = localStorage.getItem('token')
+        if (token) {
+            setIsLogged(true)
+        }
+    }, [])
 
     const handleChange = (e: any) => {
         const target = e.target as HTMLInputElement;
@@ -25,14 +32,24 @@ export default function Home() {
 
     const submit = async (event: any) => {
         event.preventDefault()
-        const response = await authenticate(data)
-        localStorage.setItem('token', response.token)
+
+        authenticate(data).then(response => {
+            localStorage.setItem('token', response.token)
+            setIsLogged(true)
+            console.log(isLogged)
+        });
+    }
+
+    const logout = () => {
+        setIsLogged(false)
+        localStorage.setItem('token', '')
     }
 
     return (
         <>
             <SectionHeader title="Inicio" iconHeader={FaHome} />
             <div className="home-form">
+                {!isLogged ? 
                 <form >
                     <section>
                         <div className="form-input">
@@ -52,7 +69,15 @@ export default function Home() {
                             Cancelar
                         </button>
                     </footer>
+
                 </form >
+                    : <div className='flex flex-col'>
+                        <h1>Bienvenido admin</h1>
+                        <button className="button-1" onClick={logout}>
+                            Cerrar sessión
+                        </button>
+                    </div>
+                }
             </div>
         </>
     )
