@@ -1,5 +1,6 @@
 'use client'
 import { SectionHeader } from '@/components/layaout'
+import NotLogged from '@/components/layaout/notLogged/notLogged';
 import EditParamModal from '@/components/modal/param/EditParamModal';
 import { DataTable } from '@/components/table'
 import { ModalId } from '@/constants/modalId';
@@ -23,11 +24,16 @@ export default function ParamPage() {
         description: '',
         value: 0,
     })
+    const [isLogged, setIsLogged] = useState(false)
     const { fetchParams, updateParams } = useParamApi()
     const router = useRouter()
 
     useEffect(() => {
-        fetchData()
+        const token = localStorage.getItem('token')
+        if (token) {
+            setIsLogged(true)
+            fetchData();
+        }
     }, [])
 
     const fetchData = async () => {
@@ -46,10 +52,15 @@ export default function ParamPage() {
     }
 
     return (
-        <>
+        <>  
+
             <SectionHeader title="Parámetros" iconHeader={FcSupport} />
+            {isLogged ?
+                <>
             <DataTable columns={columns} data={params} onEdit={onEdit} />
             <EditParamModal onSubmit={onSumitEditParam} param={selectedParam} />
+                </> : <NotLogged />
+            }
         </>
     )
 }

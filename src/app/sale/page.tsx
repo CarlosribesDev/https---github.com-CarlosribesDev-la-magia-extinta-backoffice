@@ -1,5 +1,6 @@
 'use client'
 import { SectionHeader } from "@/components/layaout"
+import NotLogged from "@/components/layaout/notLogged/notLogged";
 import { DataTable } from "@/components/table"
 import useSaleApi from "@/hooks/api/useSaleApi";
 import { Sale } from "@/model/sale";
@@ -17,9 +18,14 @@ const columns = [
 export default function SalesPage() {
     const [sales, setSales] = useState<Sale[]>([])
     const { fetchSales } = useSaleApi()
+    const [isLogged, setIsLogged] = useState(false)
 
     useEffect(() => {
-        fetchData();
+        const token = localStorage.getItem('token')
+        if (token) {
+            setIsLogged(true)
+            fetchData();
+        }
     }, [])
 
     const fetchData = async () => {
@@ -30,7 +36,9 @@ export default function SalesPage() {
     return (
         <>
             <SectionHeader title="Ventas" iconHeader={FaFileInvoiceDollar} />
-            <DataTable columns={columns} data={sales} />
+            {isLogged ?
+                <DataTable columns={columns} data={sales} /> : <NotLogged />
+            }
         </>
     )
 }

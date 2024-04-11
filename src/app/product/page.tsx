@@ -2,6 +2,7 @@
 'use client'
 import { ProductCard } from '@/components/card';
 import { SectionHeader } from '@/components/layaout';
+import NotLogged from '@/components/layaout/notLogged/notLogged';
 import AddProductModal from '@/components/modal/product/AddProductModal';
 import EditProductModal from '@/components/modal/product/EditProductModal';
 import { DataActions } from '@/components/table';
@@ -30,10 +31,15 @@ export default function ProductPage() {
         price: 0,
         uploadDate: new Date(),
     })
+    const [isLogged, setIsLogged] = useState(false)
     const { fetchProducts, editProduct, addProduct } = useProductApi()
 
     useEffect(()=> {
-        fetchData();
+        const token = localStorage.getItem('token')
+        if (token) {
+            setIsLogged(true)
+            fetchData();
+        }
     }, []) 
 
 
@@ -69,10 +75,12 @@ export default function ProductPage() {
     return (
         <>
             <SectionHeader title="Productos" iconHeader={PiPaintBrushHouseholdFill} />
+            {isLogged ?
+                <>
             <DataActions modelName='Producto' onAdd={onAdd} onRefresh={onRefresh} />
             <div className="gallery">
                 {
-                    products.map(product => {
+                            products?.map(product => {
                         return (
                             <ProductCard onClick={() => openEdit(product)}
                                 key={product.id}
@@ -87,7 +95,9 @@ export default function ProductPage() {
                 }
             </div>
             <AddProductModal onSubmit={onSubmitAddProduct} />
-            <EditProductModal onSubmit={onSubmitEditProduct} product={productSelected} />
+                    <EditProductModal onSubmit={onSubmitEditProduct} product={productSelected} /> 
+                </> : <NotLogged />
+            }
         </>
     )
 }

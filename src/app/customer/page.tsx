@@ -1,5 +1,6 @@
 'use client'
 import { SectionHeader } from '@/components/layaout'
+import NotLogged from '@/components/layaout/notLogged/notLogged';
 import AddCostumerModal from '@/components/modal/customer/AddCostumerModal';
 
 import { DataTable, DataActions } from '@/components/table'
@@ -23,10 +24,15 @@ export default function ProjectPage() {
 
     const router = useRouter()
     const [customers, setCustomers] = useState<Customer[]>([])
+    const [isLogged, setIsLogged] = useState(false)
     const { fetchCustomers, addCustomer } = useCustomerApi()
 
     useEffect(() => { 
-        fetchData();
+        const token = localStorage.getItem('token')
+        if (token) {
+            setIsLogged(true)
+            fetchData();
+        }
     }, [])
 
     const fetchData = async () => {
@@ -55,9 +61,10 @@ export default function ProjectPage() {
     return (
         <>
             <SectionHeader title="Clientes" iconHeader={FiUsers} />
+            {isLogged ? <>
             <DataActions modelName='Cliente' onAdd={onAdd} onRefresh={onRefresh} />
             <DataTable columns={columns} data={customers} onEdit={onEdit} />
-            <AddCostumerModal onSubmit={onSubmitAddCustomer} /> 
+                <AddCostumerModal onSubmit={onSubmitAddCustomer} /> </> : <NotLogged />} 
         </>
     )
 }

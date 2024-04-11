@@ -6,7 +6,7 @@ export default function useCustomerApi() {
     const { get, post, put } = useApi(`${process.env.NEXT_PUBLIC_BACKOFFICE_BACK_URL}/customer`)
 
     const fetchCustomers = async (): Promise<Customer[]> => {
-        return (await get("") as Page).content
+        return await get("")
     }
 
     const fetchSimpleCustomers = async (): Promise<SimpleCustomer[]> => {

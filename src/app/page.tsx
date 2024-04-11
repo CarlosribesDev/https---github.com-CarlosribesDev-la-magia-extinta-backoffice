@@ -1,9 +1,8 @@
 'use client'
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SectionHeader } from "@/components/layaout";
 import { FaHome } from "react-icons/fa";
 import useAdminApi from "@/hooks/api/useAdmin";
-import { GlobalContext } from "@/context/globalContex";
 
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
     const [data, setData] = useState<any>({})
     const [isLogged, setIsLogged] = useState(false)
     const { authenticate } = useAdminApi()
-
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -72,7 +70,7 @@ export default function Home() {
 
                 </form >
                     : <div className='flex flex-col'>
-                        <h1>Bienvenido admin</h1>
+                        <h1 className="text-5xl pb-5">Bienvenido admin</h1>
                         <button className="button-1" onClick={logout}>
                             Cerrar sessión
                         </button>

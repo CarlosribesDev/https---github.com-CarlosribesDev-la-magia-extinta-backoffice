@@ -1,5 +1,6 @@
 'use client'
 import { SectionHeader } from '@/components/layaout';
+import NotLogged from '@/components/layaout/notLogged/notLogged';
 import AddPaintingModal from '@/components/modal/painting_service/AddPaintingServiceModal';
 import EditPaintingServiceModal from '@/components/modal/painting_service/EditPaintingServiceModal';
 import { DataActions, DataTable } from '@/components/table';
@@ -37,9 +38,14 @@ export default function PaintingServicePage() {
         startDate: new Date()
     })
     const { fetchPaintingServices, createPaintingService, updatePaintingService } = usePaintingService()
+    const [isLogged, setIsLogged] = useState(false)
 
     useEffect(() => {
-        fetchData();
+        const token = localStorage.getItem('token')
+        if (token) {
+            setIsLogged(true)
+            fetchData();
+        }
     }, [])
 
     const fetchData = async () => {
@@ -73,10 +79,12 @@ export default function PaintingServicePage() {
     return (
         <>
             <SectionHeader title="Servicios" iconHeader={FaBriefcase} />
+            {isLogged ? <>
             <DataActions modelName='Servicio' onAdd={onAdd} onRefresh={onRefresh} />
             <DataTable columns={columns} data={paitningServices} onEdit={onEdit} />
             <AddPaintingModal onSubmit={onSubmitAddPaintingService} />
             <EditPaintingServiceModal service={selectedService} onSubmit={onSubmitEditPaintingService} />
+            </> : <NotLogged />}
         </>
     )
 }
