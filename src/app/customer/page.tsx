@@ -31,15 +31,14 @@ export default function ProjectPage() {
         const token = localStorage.getItem('token')
         if (token) {
             setIsLogged(true)
-            fetchData();
+            fetchData('');
         }
     }, [])
 
-    const fetchData = async () => {
-        const response = await fetchCustomers()
+    const fetchData = async (searchText: string) => {
+        const response = await fetchCustomers(searchText)
         setCustomers(response)
     }
-
 
     const onAdd = () => { 
         router.push(`/customer?${ModalId.addCustomer}=y`)
@@ -49,21 +48,21 @@ export default function ProjectPage() {
     }
 
     const onRefresh = () => {
-        fetchData()
+        fetchData('')
     }
 
     const onSubmitAddCustomer = async (customer: CreateCustomer) => {
-        console.log(customer);
         await addCustomer(customer)
-        fetchData()
+        onRefresh()
     }
+
 
     return (
         <>
             <SectionHeader title="Clientes" iconHeader={FiUsers} />
             {isLogged ? <>
-            <DataActions modelName='Cliente' onAdd={onAdd} onRefresh={onRefresh} />
-            <DataTable columns={columns} data={customers} onEdit={onEdit} />
+                <DataActions modelName='Cliente' onAdd={onAdd} onRefresh={onRefresh} onSearch={fetchData} />
+                <DataTable columns={columns} data={customers} onEdit={onEdit} />
                 <AddCostumerModal onSubmit={onSubmitAddCustomer} /> </> : <NotLogged />} 
         </>
     )

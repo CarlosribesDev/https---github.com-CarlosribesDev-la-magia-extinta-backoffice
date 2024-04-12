@@ -9,6 +9,7 @@ export default function Home() {
 
     const [data, setData] = useState<any>({})
     const [isLogged, setIsLogged] = useState(false)
+    const [loading, setLoading] = useState(true);
     const { authenticate } = useAdminApi()
 
     useEffect(() => {
@@ -16,7 +17,12 @@ export default function Home() {
         if (token) {
             setIsLogged(true)
         }
+        return () => clearTimeout(timer);
     }, [])
+
+    const timer = setTimeout(() => {
+        setLoading(false);
+    }, 100);
 
     const handleChange = (e: any) => {
         const target = e.target as HTMLInputElement;
@@ -46,6 +52,7 @@ export default function Home() {
     return (
         <>
             <SectionHeader title="Inicio" iconHeader={FaHome} />
+            {loading ? null :
             <div className="home-form">
                 {!isLogged ? 
                 <form >
@@ -77,6 +84,7 @@ export default function Home() {
                     </div>
                 }
             </div>
+            }
         </>
     )
 }
