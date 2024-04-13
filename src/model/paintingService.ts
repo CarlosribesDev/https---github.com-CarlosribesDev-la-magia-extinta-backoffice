@@ -6,10 +6,13 @@ export type PaintingService = {
     description: string,
     m2: number,
     canvasSize: string,
+    lienzo: string,
     customer: string,
     price: number,
     status: paintingServiceStatus,
-    startDate: Date
+    estado: string,
+    startDate: Date,
+    formatDate: string,
 }
 
 export type CreatePaintingServiceRequest = {

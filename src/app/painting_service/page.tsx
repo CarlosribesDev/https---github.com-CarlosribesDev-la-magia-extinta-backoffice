@@ -15,11 +15,11 @@ import { FaBriefcase } from 'react-icons/fa';
 const columns = [
     { title: 'Descripcion', propName: 'description', maxWidth: '140px' },
     { title: 'M2', propName: 'm2', maxWidth: '300px' },
-    { title: 'Tamaño lienzo', propName: 'canvasSize', maxWidth: '120px' },
-    { title: 'Cliente', propName: 'customer', maxWidth: '300px' },
+    { title: 'Tamaño lienzo', propName: 'lienzo', maxWidth: '120px' },
+    { title: 'Cliente', propName: 'customer', maxWidth: '250px' },
     { title: 'Precio', propName: 'price', maxWidth: '120px' },
-    { title: 'Estado', propName: 'status', maxWidth: '120px' },
-    { title: 'Fecha inicio', propName: 'startDate', maxWidth: '120px' },
+    { title: 'Estado', propName: 'estado', maxWidth: '120px' },
+    { title: 'Fecha inicio', propName: 'formatDate', maxWidth: '120px' },
 ];
 
 
@@ -32,10 +32,13 @@ export default function PaintingServicePage() {
         description: '',
         m2: 0,
         canvasSize: '',
+        lienzo: '',
         customer: '',
         price: 0,
+        estado: '',
         status: paintingServiceStatus.IN_PROGRESS,
-        startDate: new Date()
+        startDate: new Date(),
+        formatDate: ''
     })
     const { fetchPaintingServices, createPaintingService, updatePaintingService } = usePaintingService()
     const [isLogged, setIsLogged] = useState(false)
@@ -44,12 +47,13 @@ export default function PaintingServicePage() {
         const token = localStorage.getItem('token')
         if (token) {
             setIsLogged(true)
-            fetchData();
+            fetchData('')
         }
     }, [])
 
-    const fetchData = async () => {
-        const response = await fetchPaintingServices()
+    const fetchData = async (searchDesc: string) => {
+        const response = await fetchPaintingServices(searchDesc)
+        console.log(response)
         setPaintingServices(response)
     }
 
@@ -63,24 +67,24 @@ export default function PaintingServicePage() {
     }
 
     const onRefresh = () => {
-        fetchData()
+        fetchData('')
     }
 
     const onSubmitAddPaintingService = async (service: CreatePaintingServiceRequest) => {
-        await createPaintingService(service);
-        fetchData()
+        await createPaintingService(service)
+        onRefresh()
     }
 
     const onSubmitEditPaintingService = async (service: UpdatePaintingServiceRequest) => {
-        await updatePaintingService(selectedService.id, service);
-        fetchData()
+        await updatePaintingService(selectedService.id, service)
+        onRefresh()
     }
 
     return (
         <>
             <SectionHeader title="Servicios" iconHeader={FaBriefcase} />
             {isLogged ? <>
-            <DataActions modelName='Servicio' onAdd={onAdd} onRefresh={onRefresh} />
+                <DataActions modelName='Servicio' onAdd={onAdd} onRefresh={onRefresh} onSearch={fetchData} />
             <DataTable columns={columns} data={paitningServices} onEdit={onEdit} />
             <AddPaintingModal onSubmit={onSubmitAddPaintingService} />
             <EditPaintingServiceModal service={selectedService} onSubmit={onSubmitEditPaintingService} />

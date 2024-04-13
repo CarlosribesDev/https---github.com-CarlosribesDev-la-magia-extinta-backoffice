@@ -6,17 +6,33 @@ import { ModalId } from '@/constants/modalId';
 
 export default function AddCostumerModal({ onSubmit }: ModalFormProps) {
     const router = useRouter()
-    const [data, setData] = useState({})
-
+    const [data, setData] = useState<any>({})
+    const [submitDisabled, setSubmitDisabled] = useState(true);
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
         const value = target.value
 
-        setData({
+        const newData = {
             ...data,
             [target.name]: value
-        })
+        };
+
+        setData(newData);
+
+        const requiredFields = ['name', 'surname', 'email'];
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const isFormValid = requiredFields.every(field => {
+            if (newData[field] === undefined || newData[field] === '') {
+                return false;
+            }
+            if (field === 'email') {
+                return emailRegex.test(newData[field]);
+            }
+            return true;
+        });
+        setSubmitDisabled(!isFormValid);
     }
 
     const submit = (event: any) => {
@@ -38,15 +54,15 @@ export default function AddCostumerModal({ onSubmit }: ModalFormProps) {
             <form >
                 <section>
                     <div className="form-input">
-                        <label>Nombre</label>
+                        <label>*Nombre</label>
                         <input onChange={handleChange} name="name" type="text" />
                     </div>
                     <div className="form-input">
-                        <label>Apellidos</label>
+                        <label>*Apellidos</label>
                         <input onChange={handleChange} name="surname" type="text" />
                     </div>
                     <div className="form-input">
-                        <label>Email</label>
+                        <label>*Email</label>
                         <input onChange={handleChange} name="email" type="email" />
                     </div>
                     <div className="form-input">
@@ -63,7 +79,8 @@ export default function AddCostumerModal({ onSubmit }: ModalFormProps) {
                     </div>
                 </section>
                 <footer className='flex justify-between mt-6'>
-                    <button type="submit" className="button-1" onClick={submit}>
+                    <button type="submit" className={submitDisabled ?
+                        "disabled-button" : "button-1"} onClick={submit} disabled={submitDisabled}>
                         Aceptar
                     </button>
                     <button type="button" className="button-2" onClick={onClose}>

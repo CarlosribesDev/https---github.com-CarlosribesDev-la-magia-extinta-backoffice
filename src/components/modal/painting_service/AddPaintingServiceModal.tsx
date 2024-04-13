@@ -27,21 +27,22 @@ export default function AddPaintingServiceModal({ onSubmit }: ModalFormProps) {
     const handleChange = (e: any) => {
         const target = e.target as HTMLInputElement;
         const value = target.value
-
-        setData({
+        const newData: any = {
             ...data,
             [target.name]: value
-        })
+        }
+
+        setData(newData)
 
         const requiredFields = ['type', 'description', 'customerId', 'startDate'];
-        if (data.type === 'MURAL') {
+        if (newData.type === 'MURAL') {
             requiredFields.push('m2');
         } else {
             requiredFields.push('canvasSize');
         }
 
 
-        const isFormValid = requiredFields.every(field => data[field] !== undefined && data[field] !== '');
+        const isFormValid = requiredFields.every(field => newData[field] !== undefined && newData[field] !== '');
         setSubmitDisabled(!isFormValid);
     }
 

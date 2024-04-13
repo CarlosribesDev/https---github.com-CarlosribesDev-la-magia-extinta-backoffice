@@ -9,16 +9,24 @@ import { ModalId } from "@/constants/modalId";
 export default function AddProductModal({ onSubmit }: ModalFormProps) {
     const router = useRouter()
     const [data, setData] = useState({})
+    const [submitDisabled, setSubmitDisabled] = useState(true);
 
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
         const value = target.type === 'file' ? target.files && target.files[0] : target.value
 
-        setData({
+        const newData: any = {
             ...data,
             [target.name]: value
-        })
+        }
+
+        setData(newData)
+
+        const requiredFields = ['name', 'price', 'file'];
+
+        const isFormValid = requiredFields.every(field => newData[field] !== undefined && newData[field] !== '');
+        setSubmitDisabled(!isFormValid);
     }
 
     const submit = (event: any) => {
@@ -57,7 +65,8 @@ export default function AddProductModal({ onSubmit }: ModalFormProps) {
                     </div>
                 </section>
                 <footer className='flex justify-between mt-6'>
-                    <button type="submit" className="button-1" onClick={submit}>
+                    <button type="submit" className={submitDisabled ?
+                        "disabled-button" : "button-1"} onClick={submit} disabled={submitDisabled}>
                         Aceptar
                     </button>
                     <button type="button" className="button-2" onClick={onClose}>

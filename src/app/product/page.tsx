@@ -38,13 +38,13 @@ export default function ProductPage() {
         const token = localStorage.getItem('token')
         if (token) {
             setIsLogged(true)
-            fetchData();
+            fetchData('');
         }
     }, []) 
 
 
-    const fetchData = async () => {
-        const response = await fetchProducts();
+    const fetchData = async (nameFilter: string) => {
+        const response = await fetchProducts(nameFilter);
         setProducts(response)
     }
 
@@ -54,17 +54,16 @@ export default function ProductPage() {
 
     const onSubmitAddProduct = async (data: CreateProduct) => {
         await addProduct(data)
-        fetchData()
+        onRefresh()
     }
 
     const onSubmitEditProduct = async (data: EditProduct) => {
-        console.log(data)
-        editProduct(productSelected.id, data)
-        fetchData()
+        await editProduct(productSelected.id, data)
+        onRefresh()
     }
 
     const onRefresh = () => {
-        fetchData()
+        fetchData('')
     }
 
     const openEdit = (product: Product) => {
@@ -77,7 +76,7 @@ export default function ProductPage() {
             <SectionHeader title="Productos" iconHeader={PiPaintBrushHouseholdFill} />
             {isLogged ?
                 <>
-            <DataActions modelName='Producto' onAdd={onAdd} onRefresh={onRefresh} />
+                    <DataActions modelName='Producto' onAdd={onAdd} onRefresh={onRefresh} onSearch={fetchData} />
             <div className="gallery">
                 {
                             products?.map(product => {
