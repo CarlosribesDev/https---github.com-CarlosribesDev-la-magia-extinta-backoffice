@@ -34,7 +34,7 @@ export default function SideNavBar() {
     const { isOpen, toggleMenu } = useContext(GlobalContext);
 
     return (
-        <aside id="sidebar" className={`fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 w-64 h-full pt-16 font-normal duration-75 transition-width ${isOpen ? 'block' : 'hidden'} lg:flex`} aria-label="Sidebar">
+        <aside id="sidebar" className={`fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 w-64 h-full pt-16 font-normal duration-75 transition-width ${isOpen ? 'block bg-white' : 'hidden'} lg:flex`} aria-label="Sidebar">
             <div className="relative flex flex-col flex-1 min-h-0 pt-0  border-r border-gray-200 ">
                 <div className="flex flex-col flex-1 pt-5 pb-28 overflow-y-auto scrollbar scrollbar-w-2 scrollbar-thumb-rounded-[0.1667rem] scrollbar-thumb-slate-200 scrollbar-track-gray-400">
                     <div className="flex-1 px-3 space-y-1  divide-y ">

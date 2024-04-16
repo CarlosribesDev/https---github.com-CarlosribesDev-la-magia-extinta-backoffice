@@ -17,7 +17,6 @@ export default function Modal({ title, id, children, reset }: ModalBaseProps) {
             dialogRef.current?.close()
             reset()
         }
-
     }, [showDialog])
 
 
