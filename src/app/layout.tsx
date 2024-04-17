@@ -1,6 +1,6 @@
 'use client'
 import '../styles/globals.css'
-import { NavBar, SideBar, Footer } from '@/components/layaout'
+import { NavBar, SideBar } from '@/components/layaout'
 import { useState } from 'react'
 import { GlobalContext } from '@/context/globalContex'
 
@@ -35,8 +35,7 @@ export default function RootLayout({
                                 {children}
 
                             </div>
-                            </div>
-                            <Footer />
+                            </div>                  
                         </div>
                     </div>
                 </GlobalContext.Provider>    

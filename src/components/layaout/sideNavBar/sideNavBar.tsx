@@ -9,6 +9,9 @@ import { GlobalContext } from '@/context/globalContex';
 import { FiUsers } from "react-icons/fi";
 import { FaBriefcase } from "react-icons/fa6";
 import { FaFileInvoiceDollar } from "react-icons/fa6";
+import { usePathname } from 'next/navigation';
+
+
 
 interface MenuItemData {
     route: string,
@@ -25,13 +28,10 @@ const menuItems: MenuItemData[] = [
     { route: '/param', title: 'Configuración', icon: FcSupport },
 ]
 
-const menuItems2: MenuItemData[] = [
-
-]
-
 export default function SideNavBar() {
 
     const { isOpen, toggleMenu } = useContext(GlobalContext);
+    const pathName = usePathname()
 
     return (
         <aside id="sidebar" className={`fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 w-64 h-full pt-16 font-normal duration-75 transition-width ${isOpen ? 'block bg-white' : 'hidden'} lg:flex`} aria-label="Sidebar">
@@ -40,14 +40,9 @@ export default function SideNavBar() {
                     <div className="flex-1 px-3 space-y-1  divide-y ">
                         <ul className="pt-2 pb-2 space-y-2">
                             {menuItems.map((item: MenuItemData) => (
-                                <MenuItem key={item.route} route={item.route} title={item.title} icon={item.icon}/>
+                                <MenuItem key={item.route} route={item.route} title={item.title} icon={item.icon} isActive={pathName === item.route} />
                             ))}
-                        </ul>                     
-                        <ul className="pt-2 space-y-2">
-                            {menuItems2.map((item: MenuItemData) => (
-                                <MenuItem key={item.route} route={item.route} title={item.title} icon={item.icon}/>
-                            ))}
-                        </ul>                       
+                        </ul>                                    
                     </div>
                 </div>
             </div>
