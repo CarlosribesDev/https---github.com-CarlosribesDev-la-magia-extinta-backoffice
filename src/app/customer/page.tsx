@@ -44,9 +44,6 @@ export default function ProjectPage() {
         router.push(`/customer?${ModalId.addCustomer}=y`)
     }
 
-    const onEdit = (data: any) => {
-    }
-
     const onRefresh = () => {
         fetchData('')
     }
@@ -62,7 +59,7 @@ export default function ProjectPage() {
             <SectionHeader title="Clientes" iconHeader={FiUsers} />
             {isLogged ? <>
                 <DataActions modelName='Cliente' onAdd={onAdd} onRefresh={onRefresh} onSearch={fetchData} />
-                <DataTable columns={columns} data={customers} onEdit={onEdit} />
+                <DataTable columns={columns} data={customers} />
                 <AddCostumerModal onSubmit={onSubmitAddCustomer} /> </> : <NotLogged />} 
         </>
     )

@@ -63,7 +63,7 @@ export default function Home() {
                         </div>
                         <div className="form-input">
                             <label>Password</label>
-                            <input onChange={handleChange} value={data.value} name="password" type="text" />
+                                    <input onChange={handleChange} value={data.value} name="password" type="password" />
                         </div>
                     </section>
                     <footer className='flex justify-between mt-6'>
